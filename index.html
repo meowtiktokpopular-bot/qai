@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Q.Ai. Свобода и ваш выбор с персонажами.</title>
+<title>Q.Ai — персонажи с ИИ</title>
 <style>
 :root {
   --bg: #07080a;
@@ -578,7 +578,6 @@ button.item:hover { background: var(--surface); }
 (() => {
   const CATEGORIES = { fpe: 'FPE', anime: 'Аниме и игры', helpers: 'Помощники', other: 'Другое' };
   const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
-  const API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
   const K = { apiKey: 'gemini_api_key', persona: 'user_persona', bots: 'user_custom_bots', model: 'gemini_model' };
 
   const PRESET_BOTS = [
@@ -752,16 +751,14 @@ button.item:hover { background: var(--surface); }
       toast('Анализируем фото через Gemini...');
 
       try {
-        const res = await fetch(`${API_BASE}${encodeURIComponent(model)}:generateContent`, {
+        const res = await fetch('/api/scan', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [{
-              parts: [
-                { inlineData: { mimeType: file.type, data: base64Data } },
-                { text: `Проанализируй изображение персонажа. Верни ответ СТРОГО в виде валидного JSON без markdown: {"name": "Имя", "desc": "Описание", "prompt": "Характер и стиль речи с действиями в *звёздочках*", "greeting": "Приветствие с действиями в *звёздочках*"}` }
-              ]
-            }]
+            apiKey: apiKey,
+            model: model,
+            mimeType: file.type,
+            base64Data: base64Data
           })
         });
 
@@ -955,23 +952,30 @@ button.item:hover { background: var(--surface); }
 
     try {
       const contents = history.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
-      const url = `${API_BASE}${encodeURIComponent(model)}:generateContent`;
+      
       const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: `${bot.prompt}\nСобеседника зовут ${personaName}.` }] },
-          contents: contents
+          apiKey: apiKey,
+          model: model,
+          contents: contents,
+          systemInstruction: { parts: [{ text: `${bot.prompt}\nСобеседника зовут ${personaName}.` }] }
         })
       };
 
-      const data = await sendWithTimeoutAndRetry(url, options);
+      const data = await sendWithTimeoutAndRetry('/api/chat', options);
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
       const reply = data.candidates[0].content.parts[0].text;
 
       history.push({ role: 'model', text: reply });
       renderChatMessages(bot);
     } catch (err) {
-      toast('Не удалось получить ответ от сервера. Попробуйте отправить сообщение еще раз.');
+      toast('Сервер недоступен или перегружен. Попробуйте еще раз.');
     } finally {
       $('typing').hidden = true;
       scrollToBottomForce();
