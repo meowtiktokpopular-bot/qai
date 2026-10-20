@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Q.Ai — персонажи с ИИ</title>
+<style>
+:root {
+  --bg: #0c0c0c;
+  --surface: #141414;
+  --raised: #1c1c1c;
+  --hover: #232323;
+  --line: #2a2a2a;
+  --line-strong: #3d3d3d;
+  --text: #f5f5f5;
+  --muted: #a6a6a6;
+  --faint: #8c8c8c;
+  --danger: #e8908a;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+* { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+
+/* ---------- Шапка и навигация ---------- */
+.topbar {
+  order: 0;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 0;
+  border: 0;
+  background: none;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--raised);
+  font-size: 16px;
+}
+.key-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+}
+.key-status:hover { background: var(--raised); color: var(--text); }
+.dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--faint); }
+.key-status.is-set .dot { background: #fff; border-color: #fff; }
+
+.nav {
+  order: 2;
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.nav button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 2px 8px;
+  border: 0;
+  background: none;
+  color: var(--faint);
+  font-size: 11px;
+}
+.nav button:hover { color: var(--text); }
+.nav button[aria-current="page"] { color: #fff; }
+.nav svg { width: 22px; height: 22px; }
+
+main { order: 1; flex: 1; min-height: 0; position: relative; }
+
+@media (min-width: 760px) {
+  .nav {
+    order: 1;
+    display: flex;
+    gap: 4px;
+    padding: 0 12px;
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav button {
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 14px;
+    height: 44px;
+    border-bottom: 2px solid transparent;
+    font-size: 14px;
+  }
+  .nav button[aria-current="page"] { border-bottom-color: #fff; }
+  .nav svg { width: 18px; height: 18px; }
+  main { order: 2; }
+}
+
+/* ---------- Экраны ---------- */
+.screen { display: none; height: 100%; overflow-y: auto; }
+.screen.active { display: block; }
+#screen-chat.active { display: flex; flex-direction: column; overflow: hidden; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 28px 16px 40px; }
+h1 { margin: 0 0 6px; font: 700 28px/1.2 var(--serif); }
+h2 { margin: 0; font: 700 18px/1.3 var(--serif); }
+.lead { margin: 0 0 22px; color: var(--muted); max-width: 52ch; }
+
+/* ---------- Кнопки и поля ---------- */
+.btn {
+  padding: 10px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #2b2b2b;
+  color: #fff;
+  font-weight: 500;
+}
+.btn:hover { background: #363636; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn-quiet { background: transparent; border-color: var(--line); color: var(--muted); }
+.btn-quiet:hover { background: var(--raised); color: #fff; }
+
+.field { margin-bottom: 18px; }
+.field label, .field .label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+.hint { margin: 6px 0 0; color: var(--faint); font-size: 13px; }
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 16px;
+}
+.input::placeholder { color: var(--faint); }
+.input:focus { outline: 0; border-color: #bdbdbd; }
+textarea.input { resize: vertical; line-height: 1.5; }
+.row { display: flex; gap: 12px; }
+.row > .grow { flex: 1; min-width: 0; }
+.avatar-input { width: 72px; text-align: center; font-size: 24px; padding: 6px; }
+.inline-field { display: flex; gap: 8px; }
+.inline-field .input { flex: 1; min-width: 0; }
+.field .check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; font-weight: 400; }
+.check input { margin-top: 4px; width: 16px; height: 16px; accent-color: #d6d6d6; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+/* ---------- Блок сканирования фото ---------- */
+.scan-box {
+  padding: 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  margin-bottom: 20px;
+}
+.scan-header { display: flex; gap: 14px; align-items: center; }
+.scan-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  overflow: hidden;
+}
+.scan-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Каталог ---------- */
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.filter {
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+}
+.filter:hover { color: #fff; background: var(--raised); }
+.filter[aria-pressed="true"] { background: #2b2b2b; border-color: var(--line-strong); color: #fff; }
+
+.list { border-top: 1px solid var(--line); }
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  text-align: left;
+}
+button.item:hover { background: var(--surface); }
+.item-main { flex: 1; min-width: 0; }
+.item-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.item-title h3 { margin: 0; font: 700 18px/1.3 var(--serif); }
+.item-cat { color: var(--faint); font-size: 13px; }
+.item-desc { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+/* ---------- Рендер аватара (Эмодзи или Картинка) ---------- */
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 26px;
+  line-height: 1;
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar.sm { width: 32px; height: 32px; border-radius: 9px; font-size: 18px; }
+
+.empty { padding: 40px 10px; color: var(--muted); }
+.empty p { margin: 0 0 14px; max-width: 46ch; }
+
+/* ---------- Чат ---------- */
+.chat-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.chat-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.chat-titles { min-width: 0; }
+.chat-who h2 { font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chat-who p { margin: 0; color: var(--faint); font-size: 13px; }
+#chatScroll { flex: 1; min-height: 0; overflow-y: auto; padding: 22px 16px 12px; }
+.thread { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.msg-bot { display: flex; gap: 12px; align-items: flex-start; max-width: 92%; }
+.msg-bot .who { margin-bottom: 2px; font: 700 14px/1.3 var(--serif); }
+.msg-user { align-self: flex-end; max-width: 85%; }
+.msg-user .bubble {
+  padding: 10px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px 16px 4px 16px;
+  background: #272727;
+}
+.text { overflow-wrap: anywhere; }
+.text p { margin: 0 0 8px; }
+.text p:last-child { margin-bottom: 0; }
+.text em { color: #bdbdbd; font-style: italic; }
+.msg-toolbar { display: flex; gap: 8px; margin-top: 6px; font-size: 12px; color: var(--faint); }
+.msg-toolbar button { background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer; }
+.msg-toolbar button:hover { color: #fff; text-decoration: underline; }
+
+.notice {
+  align-self: center;
+  max-width: 480px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+.notice.error { border-color: #5b3532; color: var(--danger); }
+.typing { display: flex; align-items: center; gap: 10px; padding: 0 16px 8px; color: var(--faint); font-size: 13px; }
+.typing-inner { max-width: 720px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 8px; }
+.typing .d { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
+.typing .d:nth-child(3) { animation-delay: 0.2s; }
+.typing .d:nth-child(4) { animation-delay: 0.4s; }
+@keyframes blink { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+.composer {
+  flex: none;
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.composer form { max-width: 720px; margin: 0 auto; display: flex; align-items: flex-end; gap: 8px; }
+.composer textarea {
+  flex: 1;
+  min-height: 46px;
+  max-height: 160px;
+  padding: 11px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 16px;
+  resize: none;
+}
+.composer textarea:focus { outline: 0; border-color: #bdbdbd; }
+.send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: #2b2b2b;
+  color: #fff;
+}
+.send:hover { background: #3a3a3a; }
+.send svg { width: 20px; height: 20px; }
+.send .i-stop { display: none; }
+.composer.busy .i-send { display: none; }
+.composer.busy .i-stop { display: block; }
+.composer-hint { max-width: 720px; margin: 6px auto 0; color: var(--faint); font-size: 12px; }
+.chat-empty { flex: 1; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
+.chat-empty p { margin: 0 0 14px; }
+
+/* ---------- Уведомления ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 50;
+  max-width: calc(100% - 32px);
+  padding: 10px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: #262626;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+@media (min-width: 760px) { .toast { bottom: 28px; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" type="button" data-tab="home" aria-label="Q.Ai, на главную">
+    <span class="brand-mark" aria-hidden="true">Q</span>
+    <span>Q.Ai</span>
+  </button>
+  <button class="key-status" id="keyStatus" type="button" data-tab="settings">
+    <span class="dot" aria-hidden="true"></span>
+    <span id="keyStatusText">Добавить ключ</span>
+  </button>
+</header>
+
+<nav class="nav" aria-label="Разделы">
+  <button type="button" data-tab="home" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    <span>Каталог</span>
+  </button>
+  <button type="button" data-tab="mybots">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+    <span>Мои</span>
+  </button>
+  <button type="button" data-tab="create">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    <span>Создать</span>
+  </button>
+  <button type="button" data-tab="chat">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg>
+    <span>Чат</span>
+  </button>
+  <button type="button" data-tab="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+    <span>Настройки</span>
+  </button>
+</nav>
+
+<main>
+  <!-- Каталог -->
+  <section id="screen-home" class="screen active" aria-labelledby="homeTitle">
+    <div class="wrap">
+      <h1 id="homeTitle">С кем поговорим сегодня?</h1>
+      <p class="lead">Выбери готового персонажа или создай своего с помощью искусственного интеллекта.</p>
+      <div class="filters" id="filters" role="group" aria-label="Категории"></div>
+      <div class="list" id="catalog"></div>
+    </div>
+  </section>
+
+  <!-- Мои персонажи -->
+  <section id="screen-mybots" class="screen" aria-labelledby="myTitle">
+    <div class="wrap">
+      <h1 id="myTitle">Мои персонажи</h1>
+      <p class="lead">Все созданные вами боты хранятся локально в вашем браузере.</p>
+      <div class="list" id="myBots"></div>
+    </div>
+  </section>
+
+  <!-- Создание персонажа с поддержкой фото-аватара и Gemini Vision -->
+  <section id="screen-create" class="screen" aria-labelledby="createTitle">
+    <div class="wrap">
+      <h1 id="createTitle">Новый персонаж</h1>
+      <p class="lead">Загрузите фото для авто-создания персонажа через Gemini или настройте всё вручную.</p>
+
+      <div class="scan-box">
+        <label class="label">✨ Авто-создание по фото (Vision)</label>
+        <div class="scan-header">
+          <div class="scan-preview" id="scanPreview">🖼️</div>
+          <div style="flex:1;">
+            <input id="autoImageInput" class="input" type="file" accept="image/*">
+            <p class="hint">Изображение автоматически станет аватаром бота и заполнит профиль.</p>
+          </div>
+        </div>
+      </div>
+
+      <form id="createForm" autocomplete="off">
+        <div class="row field">
+          <div>
+            <label for="newAvatar">Эмодзи (или фото)</label>
+            <input id="newAvatar" class="input avatar-input" type="text" value="🤖" maxlength="12">
+          </div>
+          <div class="grow">
+            <label for="newName">Имя</label>
+            <input id="newName" class="input" type="text" maxlength="40" placeholder="Например: Abbie (FPE)" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="customAvatarFile">Или загрузить свою картинку-аватар</label>
+          <input id="customAvatarFile" class="input" type="file" accept="image/*">
+        </div>
+        
+        <div class="field">
+          <label for="newCategory">Категория</label>
+          <select id="newCategory" class="input">
+            <option value="fpe">FPE (Fundamental Paper Education)</option>
+            <option value="anime">Аниме и игры</option>
+            <option value="helpers">Помощник или эксперт</option>
+            <option value="other">Другое</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="newDesc">Описание для карточки</label>
+          <input id="newDesc" class="input" type="text" maxlength="140" placeholder="Краткое описание" required>
+        </div>
+
+        <div class="field">
+          <label for="newPrompt">Характер и правила (Промпт)</label>
+          <textarea id="newPrompt" class="input" rows="6" maxlength="4000" required placeholder="Опишите характер, манеру речи. Действия пишите в *звёздочках*."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="newGreeting">Первое сообщение</label>
+          <textarea id="newGreeting" class="input" rows="3" maxlength="600" required placeholder="Приветствие персонажа..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit">Создать персонажа</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Чат -->
+  <section id="screen-chat" class="screen" aria-label="Чат">
+    <div class="chat-empty" id="chatEmpty">
+      <div>
+        <p>Здесь пока тихо. Выберите персонажа в каталоге, чтобы начать диалог.</p>
+        <button class="btn" type="button" data-tab="home">Открыть каталог</button>
+      </div>
+    </div>
+
+    <div class="chat-head" id="chatHead" hidden>
+      <div class="chat-who">
+        <div class="avatar sm" id="chatAvatar" aria-hidden="true"></div>
+        <div class="chat-titles">
+          <h2 id="chatName"></h2>
+          <p id="chatSub"></p>
+        </div>
+      </div>
+      <button class="btn btn-quiet" id="resetBtn" type="button">Сбросить чат</button>
+    </div>
+
+    <div id="chatScroll" hidden>
+      <div class="thread" id="thread" role="log" aria-live="polite"></div>
+    </div>
+
+    <div class="typing" id="typing" hidden>
+      <div class="typing-inner">
+        <span id="typingText">Печатает</span>
+        <span class="d"></span><span class="d"></span><span class="d"></span>
+      </div>
+    </div>
+
+    <div class="composer" id="composer" hidden>
+      <form id="chatForm">
+        <textarea id="userInput" rows="1" maxlength="2000" placeholder="Напишите сообщение..."></textarea>
+        <button class="send" id="sendBtn" type="submit" aria-label="Отправить">
+          <svg class="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          <svg class="i-stop" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        </button>
+      </form>
+      <p class="composer-hint">Enter — отправить, Shift+Enter — новая строка. Действия пишите в *звёздочках*.</p>
+    </div>
+  </section>
+
+  <!-- Настройки -->
+  <section id="screen-settings" class="screen" aria-labelledby="setTitle">
+    <div class="wrap">
+      <h1 id="setTitle">Настройки</h1>
+      <p class="lead">Укажите ваш ключ Gemini API, полученный в Google AI Studio.</p>
+      <form id="settingsForm" autocomplete="off">
+        <div class="field">
+          <label for="apiKeyInput">Gemini API-ключ</label>
+          <div class="inline-field">
+            <input id="apiKeyInput" class="input" type="password" placeholder="Вставьте ваш ключ здесь" autocomplete="off">
+            <button class="btn btn-quiet" id="toggleKey" type="button">Показать</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="check">
+            <input id="rememberKey" type="checkbox">
+            <span>Запомнить ключ в браузере</span>
+          </label>
+        </div>
+
+        <div class="field">
+          <label for="personaInput">Ваше имя в чате</label>
+          <input id="personaInput" class="input" type="text" maxlength="30" placeholder="Ученик">
+        </div>
+
+        <div class="field">
+          <label for="modelInput">Модель Gemini</label>
+          <input id="modelInput" class="input" type="text" maxlength="64" value="gemini-3.5-flash-lite">
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit">Сохранить настройки</button>
+          <button class="btn btn-quiet" id="clearKey" type="button">Удалить ключ</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+(() => {
+  const CATEGORIES = { fpe: 'FPE', anime: 'Аниме и игры', helpers: 'Помощники', other: 'Другое' };
+  const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
+  const API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+  const K = { apiKey: 'gemini_api_key', persona: 'user_persona', bots: 'user_custom_bots', model: 'gemini_model' };
+
+  const PRESET_BOTS = [
+    {
+      id: 'abbie-fpe', name: 'Abbie (Эбби)', avatar: '🍎', category: 'fpe',
+      desc: 'Пугливый, застенчивый ученик из Fundamental Paper Education.',
+      greeting: '*дрожащими руками прижимает тетрадь к груди и испуганно оглядывается*\n\nА-ах!.. П-привет... Ты... ты ведь не учитель, правда? Пожалуйста, скажи, что Мисс Сёркл сейчас далеко...',
+      prompt: `Ты — Abbie (Эбби), персонаж из анимации Fundamental Paper Education (FPE).
+ХАРАКТЕР И ПОВЕДЕНИЕ:
+1. Ты очень пугливый, нервный, застенчивый и тревожный ученик бумажной школы.
+2. Ты панически боишься получить плохую оценку и встретиться с учителями, особенно с Мисс Сёркл.
+3. Заикайся (П-пожалуйста, Я... я), описывай действия в *звёздочках*.`
+    }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  let toastTimer = null;
+  function toast(message) {
+    const node = $('toast');
+    node.textContent = message;
+    node.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => node.classList.remove('show'), 2200);
+  }
+
+  let apiKey = localStorage.getItem(K.apiKey) || sessionStorage.getItem(K.apiKey) || '';
+  let personaName = localStorage.getItem(K.persona) || 'Ученик';
+  let model = localStorage.getItem(K.model) || DEFAULT_MODEL;
+  let userBots = JSON.parse(localStorage.getItem(K.bots) || '[]');
+  let currentBot = null;
+  let temporaryAvatarData = ''; // Временное хранение аватара при создании по фото
+  const sessions = new Map();
+
+  function refreshKeyBadge() {
+    const statusText = $('keyStatusText');
+    const statusBtn = $('keyStatus');
+    if (statusText && statusBtn) {
+      statusText.textContent = apiKey ? 'Ключ подключен' : 'Добавить ключ';
+      statusBtn.classList.toggle('is-set', Boolean(apiKey));
+    }
+  }
+
+  function fillSettings() {
+    if ($('apiKeyInput'))$('apiKeyInput').value = apiKey;
+    if ($('rememberKey'))$('rememberKey').checked = Boolean(localStorage.getItem(K.apiKey));
+    if ($('personaInput'))$('personaInput').value = personaName;
+    if ($('modelInput'))$('modelInput').value = model;
+    refreshKeyBadge();
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.screen').forEach((el) => el.classList.toggle('active', el.id === 'screen-' + tab));
+    document.querySelectorAll('.nav button').forEach((btn) => {
+      if (btn.dataset.tab === tab) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    });
+    if (tab === 'chat' && currentBot) scrollToBottomForce();
+  }
+
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-tab]');
+    if (trigger) switchTab(trigger.dataset.tab);
+  });
+
+  // Хелпер рендеринга аватара (поддерживает и эмодзи, и картинки base64/URL)
+  function renderAvatarHtml(val) {
+    if (!val) return '🤖';
+    if (val.startsWith('data:image') || val.startsWith('http')) {
+      return `<img src="${val}" alt="avatar">`;
+    }
+    return val;
+  }
+
+  function renderCatalog() {
+    const catalog = $('catalog');
+    catalog.replaceChildren();
+    const all = [...PRESET_BOTS, ...userBots];
+    all.forEach(bot => {
+      const item = document.createElement('button');
+      item.className = 'item';
+      item.innerHTML = `
+        <div class="avatar">${renderAvatarHtml(bot.avatar)}</div>
+        <div class="item-main">
+          <div class="item-title">
+            <h3>${bot.name}</h3>
+            <span class="item-cat">${CATEGORIES[bot.category] || 'Другое'}</span>
+          </div>
+          <p class="item-desc">${bot.desc}</p>
+        </div>
+      `;
+      item.onclick = () => selectBot(bot);
+      catalog.appendChild(item);
+    });
+  }
+
+  function renderMyBots() {
+    const myBots = $('myBots');
+    myBots.replaceChildren();
+    if (!userBots.length) {
+      myBots.innerHTML = '<div class="empty"><p>У вас пока нет созданных персонажей.</p></div>';
+      return;
+    }
+    userBots.forEach(bot => {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = `
+        <div class="avatar">${renderAvatarHtml(bot.avatar)}</div>
+        <div class="item-main">
+          <div class="item-title"><h3>${bot.name}</h3></div>
+          <p class="item-desc">${bot.desc}</p>
+        </div>
+        <button class="btn btn-quiet" type="button">Удалить</button>
+      `;
+      item.querySelector('button').onclick = () => {
+        userBots = userBots.filter(b => b.id !== bot.id);
+        localStorage.setItem(K.bots, JSON.stringify(userBots));
+        renderMyBots();
+        renderCatalog();
+        toast('Персонаж удален');
+      };
+      myBots.appendChild(item);
+    });
+  }
+
+  // Обработка загрузки кастомного аватара файлом
+  let manualAvatarData = '';
+  $('customAvatarFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      manualAvatarData = reader.result;
+      toast('Аватар-картинка загружена');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Создание бота
+  $('createForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const finalAvatar = manualAvatarData || temporaryAvatarData || $('newAvatar').value.trim() || '🤖';
+    const newBot = {
+      id: 'custom-' + Date.now(),
+      name: $('newName').value.trim(),
+      avatar: finalAvatar,
+      category: $('newCategory').value,
+      desc: $('newDesc').value.trim(),
+      prompt: $('newPrompt').value.trim(),
+      greeting: $('newGreeting').value.trim()
+    };
+    userBots.push(newBot);
+    localStorage.setItem(K.bots, JSON.stringify(userBots));
+    e.target.reset();
+    temporaryAvatarData = '';
+    manualAvatarData = '';
+    $('scanPreview').innerHTML = '🖼️';
+    renderCatalog();
+    renderMyBots();
+    toast('Персонаж успешно создан!');
+    selectBot(newBot);
+  });
+
+  // Авто-создание по фото (Gemini Vision)
+  $('autoImageInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!apiKey) {
+      toast('Сначала укажите API-ключ в настройках!');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64Result = reader.result;
+      $('scanPreview').innerHTML = `<img src="${base64Result}" alt="Preview">`;
+      temporaryAvatarData = base64Result; // Картинка автоматически идет на аватарку
+      const base64Data = base64Result.split(',')[1];
+      
+      toast('Анализируем изображение через Gemini...');
+
+      try {
+        const res = await fetch(`${API_BASE}${encodeURIComponent(model)}:generateContent`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { inlineData: { mimeType: file.type, data: base64Data } },
+                { text: `Проанализируй изображение персонажа. Верни ответ СТРОГО в виде валидного JSON без markdown тегов: {"name": "Имя (Вселенная)", "desc": "Описание", "prompt": "Характер и стиль речи с *действиями*", "greeting": "Первое приветствие с *действиями*"}` }
+              ]
+            }]
+          })
+        });
+
+        const data = await res.json();
+        const rawText = data.candidates[0].content.parts[0].text;
+        const cleanJson = rawText.replace(/```json|```/g, '').trim();
+        const botInfo = JSON.parse(cleanJson);
+
+        if (botInfo.name) $('newName').value = botInfo.name;
+        if (botInfo.desc) $('newDesc').value = botInfo.desc;
+        if (botInfo.prompt) $('newPrompt').value = botInfo.prompt;
+        if (botInfo.greeting) $('newGreeting').value = botInfo.greeting;
+
+        toast('Персонаж распознан!');
+      } catch (err) {
+        console.error(err);
+        toast('Ошибка распознавания изображения.');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Настройки формы
+  $('toggleKey').addEventListener('click', () => {
+    const input = $('apiKeyInput');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+
+  $('settingsForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    apiKey = $('apiKeyInput').value.trim();
+    const remember = $('rememberKey').checked;
+    personaName = $('personaInput').value.trim() || 'Ученик';
+    model = $('modelInput').value.trim() || DEFAULT_MODEL;
+
+    localStorage.removeItem(K.apiKey);
+    sessionStorage.removeItem(K.apiKey);
+    if (apiKey) {
+      (remember ? localStorage : sessionStorage).setItem(K.apiKey, apiKey);
+    }
+    localStorage.setItem(K.persona, personaName);
+    localStorage.setItem(K.model, model);
+
+    refreshKeyBadge();
+    toast('Настройки сохранены');
+  });
+
+  $('clearKey').addEventListener('click', () => {
+    apiKey = '';
+    localStorage.removeItem(K.apiKey);
+    sessionStorage.removeItem(K.apiKey);
+    fillSettings();
+    toast('Ключ удален');
+  });
+
+  // Логика прокрутки и чата
+  const thread = $('thread');
+  const scroller = $('chatScroll');
+
+  function scrollToBottomForce() {
+    setTimeout(() => {
+      scroller.scrollTop = scroller.scrollHeight;
+    }, 30);
+  }
+
+  function renderRich(text) {
+    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function addMessage(role, text, bot, index) {
+    const isBot = role === 'model';
+    const msgDiv = document.createElement('div');
+    msgDiv.className = isBot ? 'msg-bot' : 'msg-user';
+    
+    if (isBot) {
+      msgDiv.innerHTML = `
+        <div class="avatar sm">${renderAvatarHtml(bot.avatar)}</div>
+        <div>
+          <div class="who">${bot.name}</div>
+          <div class="text bubble">${renderRich(text)}</div>
+          <div class="msg-toolbar">
+            <button type="button" class="edit-btn">Редактировать</button>
+            <button type="button" class="rewind-btn">Откатить сюда</button>
+          </div>
+        </div>
+      `;
+      msgDiv.querySelector('.edit-btn').onclick = () => {
+        const newText = prompt('Изменить ответ персонажа:', text);
+        if (newText !== null) {
+          sessions.get(bot.id)[index].text = newText;
+          renderChatMessages(bot);
+        }
+      };
+      msgDiv.querySelector('.rewind-btn').onclick = () => {
+        if (confirm('Откатить диалог до этого сообщения?')) {
+          sessions.set(bot.id, sessions.get(bot.id).slice(0, index + 1));
+          renderChatMessages(bot);
+          toast('Диалог откачен');
+        }
+      };
+    } else {
+      msgDiv.innerHTML = `<div class="bubble text">${renderRich(text)}</div>`;
+    }
+    thread.appendChild(msgDiv);
+    scrollToBottomForce();
+  }
+
+  function renderChatMessages(bot) {
+    thread.replaceChildren();
+    addMessage('model', bot.greeting, bot, -1);
+    const history = sessions.get(bot.id) || [];
+    history.forEach((m, idx) => addMessage(m.role, m.text, bot, idx));
+    scrollToBottomForce();
+  }
+
+  function selectBot(bot) {
+    currentBot = bot;
+    $('chatEmpty').hidden = true;
+    $('chatHead').hidden = false;
+    scroller.hidden = false;
+    $('composer').hidden = false;
+
+    $('chatAvatar').innerHTML = renderAvatarHtml(bot.avatar);
+    $('chatName').textContent = bot.name;
+    $('chatSub').textContent = CATEGORIES[bot.category] || 'Другое';
+
+    if (!sessions.has(bot.id)) {
+      sessions.set(bot.id, []);
+    }
+    renderChatMessages(bot);
+    switchTab('chat');
+  }
+
+  $('resetBtn').onclick = () => {
+    if (!currentBot) return;
+    sessions.set(currentBot.id, []);
+    renderChatMessages(currentBot);
+    toast('Чат сброшен');
+  };
+
+  $('chatForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = $('userInput');
+    const text = input.value.trim();
+    if (!text || !currentBot) return;
+    if (!apiKey) {
+      toast('Добавьте API-ключ в настройках!');
+      switchTab('settings');
+      return;
+    }
+
+    const bot = currentBot;
+    const history = sessions.get(bot.id);
+    history.push({ role: 'user', text });
+    addMessage('user', text, bot, history.length - 1);
+    input.value = '';
+    input.style.height = 'auto';
+
+    $('typing').hidden = false;
+    scrollToBottomForce();
+
+    try {
+      const contents = history.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
+      const res = await fetch(`${API_BASE}${encodeURIComponent(model)}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: `${bot.prompt}\nСобеседника зовут ${personaName}.` }] },
+          contents: contents
+        })
+      });
+
+      if (!res.ok) throw new Error('Ошибка API: ' + res.status);
+      const data = await res.json();
+      const reply = data.candidates[0].content.parts[0].text;
+
+      history.push({ role: 'model', text: reply });
+      renderChatMessages(bot);
+    } catch (err) {
+      console.error(err);
+      toast('Ошибка связи с ИИ. Проверьте ключ API.');
+    } finally {
+      $('typing').hidden = true;
+      scrollToBottomForce();
+    }
+  });
+
+  // Старт приложения
+  fillSettings();
+  renderCatalog();
+  renderMyBots();
+  switchTab('home');
+})();
+</script>
+</body>
+</html>
