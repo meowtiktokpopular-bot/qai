@@ -300,18 +300,6 @@ button.item:hover { background: var(--surface); }
 .msg-toolbar button { background: none; border: 0; padding: 0; color: var(--faint); cursor: pointer; transition: color 0.15s; }
 .msg-toolbar button:hover { color: #fff; text-decoration: underline; }
 
-.notice {
-  align-self: center;
-  max-width: 500px;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 14px;
-  text-align: center;
-}
-.notice.error { border-color: #4a2222; color: #f87171; background: #1c1113; }
 .typing { display: flex; align-items: center; gap: 10px; padding: 0 20px 10px; color: var(--faint); font-size: 13px; }
 .typing-inner { max-width: 740px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 8px; }
 .typing .d { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
@@ -377,6 +365,7 @@ button.item:hover { background: var(--surface); }
   pointer-events: none;
   transition: opacity 0.2s ease;
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  text-align: center;
 }
 .toast.show { opacity: 1; }
 @media (min-width: 760px) { .toast { bottom: 32px; } }
@@ -608,7 +597,7 @@ button.item:hover { background: var(--surface); }
     node.textContent = message;
     node.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => node.classList.remove('show'), 2200);
+    toastTimer = setTimeout(() => node.classList.remove('show'), 4000);
   }
 
   let apiKey = localStorage.getItem(K.apiKey) || sessionStorage.getItem(K.apiKey) || '';
@@ -913,6 +902,36 @@ button.item:hover { background: var(--surface); }
     toast('Чат сброшен');
   };
 
+  async function sendWithTimeoutAndRetry(url, options, maxAttempts = 3) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          return await res.json();
+        }
+
+        if (res.status === 503 && attempt < maxAttempts) {
+          toast('Возможно, сервера перегружены, или ваше интернет-соединение нестабилен. Автоотправка через 10 секунд.');
+          await new Promise(r => setTimeout(r, 10000));
+          continue;
+        }
+
+        throw new Error('API Error: ' + res.status);
+      } catch (err) {
+        clearTimeout(timeoutId);
+        if (attempt === maxAttempts) throw err;
+
+        toast('Возможно, сервера перегружены, или ваше интернет-соединение нестабилен. Автоотправка через 10 секунд.');
+        await new Promise(r => setTimeout(r, 10000));
+      }
+    }
+  }
+
   $('chatForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = $('userInput');
@@ -936,23 +955,23 @@ button.item:hover { background: var(--surface); }
 
     try {
       const contents = history.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
-      const res = await fetch(`${API_BASE}${encodeURIComponent(model)}:generateContent`, {
+      const url = `${API_BASE}${encodeURIComponent(model)}:generateContent`;
+      const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: `${bot.prompt}\nСобеседника зовут ${personaName}.` }] },
           contents: contents
         })
-      });
+      };
 
-      if (!res.ok) throw new Error('Ошибка API');
-      const data = await res.json();
+      const data = await sendWithTimeoutAndRetry(url, options);
       const reply = data.candidates[0].content.parts[0].text;
 
       history.push({ role: 'model', text: reply });
       renderChatMessages(bot);
     } catch (err) {
-      toast('Ошибка связи с ИИ.');
+      toast('Не удалось получить ответ от сервера. Попробуйте отправить сообщение еще раз.');
     } finally {
       $('typing').hidden = true;
       scrollToBottomForce();
