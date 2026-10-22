@@ -74,62 +74,30 @@ button { cursor: pointer; }
   background: var(--raised);
   font-size: 16px;
 }
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
 .user-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-  color: #fff;
-  font-size: 13px;
-  transition: background 0.15s;
+  display: flex; align-items: center; gap: 6px; padding: 6px 14px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: #fff; font-size: 13px; transition: background 0.15s;
 }
 .user-btn:hover { background: var(--raised); }
 
 .key-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 13px;
-  transition: background 0.15s, color 0.15s;
+  display: flex; align-items: center; gap: 8px; padding: 6px 14px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: var(--muted); font-size: 13px; transition: background 0.15s, color 0.15s;
 }
 .key-status:hover { background: var(--raised); color: var(--text); }
 .dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--faint); }
 .key-status.is-set .dot { background: #22c55e; border-color: #22c55e; box-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
 
 .nav {
-  order: 2;
-  flex: none;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  border-top: 1px solid var(--border);
-  background: var(--bg);
+  order: 2; flex: none; display: grid; grid-template-columns: repeat(5, 1fr);
+  padding-bottom: env(safe-area-inset-bottom, 0px); border-top: 1px solid var(--border); background: var(--bg);
 }
 .nav button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 2px 8px;
-  border: 0;
-  background: none;
-  color: var(--faint);
-  font-size: 11px;
-  font-weight: 500;
-  transition: color 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 2px 8px;
+  border: 0; background: none; color: var(--faint); font-size: 11px; font-weight: 500; transition: color 0.15s;
 }
 .nav button:hover { color: var(--text); }
 .nav button[aria-current="page"] { color: #fff; }
@@ -138,22 +106,8 @@ button { cursor: pointer; }
 main { order: 1; flex: 1; min-height: 0; position: relative; }
 
 @media (min-width: 760px) {
-  .nav {
-    order: 1;
-    display: flex;
-    gap: 6px;
-    padding: 0 16px;
-    border-top: 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .nav button {
-    flex-direction: row;
-    gap: 8px;
-    padding: 0 16px;
-    height: 48px;
-    border-bottom: 2px solid transparent;
-    font-size: 14px;
-  }
+  .nav { order: 1; display: flex; gap: 6px; padding: 0 16px; border-top: 0; border-bottom: 1px solid var(--border); }
+  .nav button { flex-direction: row; gap: 8px; padding: 0 16px; height: 48px; border-bottom: 2px solid transparent; font-size: 14px; }
   .nav button[aria-current="page"] { border-bottom-color: #fff; }
   .nav svg { width: 18px; height: 18px; }
   main { order: 2; }
@@ -164,20 +118,13 @@ main { order: 1; flex: 1; min-height: 0; position: relative; }
 #screen-chat.active { display: flex; flex-direction: column; overflow: hidden; }
 .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 48px; }
 h1 { margin: 0 0 8px; font: 700 30px/1.2 var(--serif); color: #fff; }
-h2 { margin: 0; font: 700 18px/1.3 var(--serif); color: #fff; }
 .lead { margin: 0 0 24px; color: var(--muted); max-width: 54ch; font-size: 15px; }
 
 .btn {
-  padding: 11px 18px;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  background: #1f2430;
-  color: #fff;
-  font-weight: 500;
-  transition: background 0.15s, border-color 0.15s;
+  padding: 11px 18px; border: 1px solid var(--border-strong); border-radius: 10px;
+  background: #1f2430; color: #fff; font-weight: 500; transition: background 0.15s, border-color 0.15s;
 }
 .btn:hover { background: #282f3d; border-color: #40495d; }
-.btn:disabled { opacity: 0.5; cursor: default; }
 .btn-accent { background: var(--accent); border-color: var(--accent); }
 .btn-accent:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 .btn-quiet { background: transparent; border-color: var(--border); color: var(--muted); }
@@ -187,251 +134,95 @@ h2 { margin: 0; font: 700 18px/1.3 var(--serif); color: #fff; }
 .field label, .field .label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #e5e7eb; }
 .hint { margin: 6px 0 0; color: var(--faint); font-size: 13px; }
 .input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  background: var(--surface);
-  color: #fff;
-  font-size: 15px;
-  transition: border-color 0.15s;
+  width: 100%; padding: 12px 14px; border: 1px solid var(--border-strong); border-radius: 10px;
+  background: var(--surface); color: #fff; font-size: 15px; transition: border-color 0.15s;
 }
-.input::placeholder { color: var(--faint); }
 .input:focus { outline: 0; border-color: #6b7280; }
 textarea.input { resize: vertical; line-height: 1.5; }
 .row { display: flex; gap: 14px; }
 .row > .grow { flex: 1; min-width: 0; }
 .avatar-input { width: 80px; text-align: center; font-size: 24px; padding: 8px; }
-.inline-field { display: flex; gap: 10px; }
-.inline-field .input { flex: 1; min-width: 0; }
-.field .check { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; font-weight: 400; color: #d1d5db; }
-.check input { margin-top: 3px; width: 17px; height: 17px; accent-color: var(--accent); }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
 
-.search-box { margin-bottom: 20px; }
-
 .scan-box {
-  padding: 18px;
-  border: 1px dashed var(--border-strong);
-  border-radius: 12px;
-  background: var(--surface);
-  margin-bottom: 24px;
+  padding: 18px; border: 1px dashed var(--border-strong); border-radius: 12px;
+  background: var(--surface); margin-bottom: 24px;
 }
 .scan-header { display: flex; gap: 16px; align-items: center; }
 .scan-preview {
-  width: 68px;
-  height: 68px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--raised);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  overflow: hidden;
+  width: 68px; height: 68px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--raised); display: flex; align-items: center; justify-content: center; font-size: 26px; overflow: hidden;
 }
 .scan-preview img { width: 100%; height: 100%; object-fit: cover; }
 
-.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.filter {
-  padding: 7px 16px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 14px;
-  transition: all 0.15s;
-}
-.filter:hover { color: #fff; background: var(--raised); border-color: var(--border-strong); }
-.filter[aria-pressed="true"] { background: #212735; border-color: var(--border-strong); color: #fff; }
-
+.search-box { margin-bottom: 20px; }
 .list { border-top: 1px solid var(--border); }
 .item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  padding: 18px 12px;
-  border: 0;
-  border-bottom: 1px solid var(--border);
-  background: none;
-  text-align: left;
-  transition: background 0.15s;
+  display: flex; align-items: center; gap: 16px; width: 100%; padding: 18px 12px;
+  border: 0; border-bottom: 1px solid var(--border); background: none; text-align: left; transition: background 0.15s;
 }
 button.item:hover { background: var(--surface); }
 .item-main { flex: 1; min-width: 0; }
 .item-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .item-title h3 { margin: 0; font: 700 18px/1.3 var(--serif); color: #fff; }
-.item-cat { color: var(--faint); font-size: 13px; }
 .item-author { color: var(--accent); font-size: 12px; margin-left: auto; }
 .item-desc { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
 
 .avatar {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 50px;
-  height: 50px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  font-size: 26px;
-  line-height: 1;
-  overflow: hidden;
+  flex: none; display: grid; place-items: center; width: 50px; height: 50px;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font-size: 26px; overflow: hidden;
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .avatar.sm { width: 34px; height: 34px; border-radius: 9px; font-size: 18px; }
 
 .empty { padding: 48px 12px; color: var(--muted); text-align: center; }
-.empty p { margin: 0 0 16px; max-width: 48ch; margin-inline: auto; }
 
 /* Modal */
 .modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px;
 }
 .modal {
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 16px;
-  width: 100%;
-  max-width: 420px;
-  padding: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 16px;
+  width: 100%; max-width: 420px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.modal-header h2 { font-size: 20px; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-header h2 { font-size: 20px; margin: 0; }
 .modal-close { background: none; border: 0; font-size: 20px; color: var(--muted); }
 
 .chat-head {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  flex: none; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg);
 }
 .chat-who { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.chat-titles { min-width: 0; }
-.chat-who h2 { font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+.chat-who h2 { font-size: 17px; margin: 0; color: #fff; }
 .chat-who p { margin: 0; color: var(--faint); font-size: 13px; }
 #chatScroll { flex: 1; min-height: 0; overflow-y: auto; padding: 24px 20px 16px; }
 .thread { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
 .msg-bot { display: flex; gap: 14px; align-items: flex-start; max-width: 92%; }
 .msg-bot .who { margin-bottom: 3px; font: 700 14px/1.3 var(--serif); color: #d1d5db; }
 .msg-user { align-self: flex-end; max-width: 85%; }
-.msg-user .bubble {
-  padding: 12px 16px;
-  border: 1px solid var(--border-strong);
-  border-radius: 16px 16px 4px 16px;
-  background: #1b202c;
-  color: #fff;
-}
-.text { overflow-wrap: anywhere; }
-.text p { margin: 0 0 10px; }
-.text p:last-child { margin-bottom: 0; }
-.text em {
-  font-family: var(--serif);
-  font-style: italic;
-  color: #b5bdcc;
-  font-size: 0.96em;
-  letter-spacing: 0.2px;
-}
-.text strong { color: #fff; font-weight: 600; }
-.msg-toolbar { display: flex; gap: 12px; margin-top: 6px; font-size: 12px; }
-.msg-toolbar button { background: none; border: 0; padding: 0; color: var(--faint); cursor: pointer; transition: color 0.15s; }
-.msg-toolbar button:hover { color: #fff; text-decoration: underline; }
+.msg-user .bubble { padding: 12px 16px; border: 1px solid var(--border-strong); border-radius: 16px 16px 4px 16px; background: #1b202c; color: #fff; }
+.msg-bot .bubble { padding: 12px 16px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); color: #fff; }
 
 .typing { display: flex; align-items: center; gap: 10px; padding: 0 20px 10px; color: var(--faint); font-size: 13px; }
-.typing-inner { max-width: 740px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 8px; }
-.typing .d { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
-.typing .d:nth-child(3) { animation-delay: 0.2s; }
-.typing .d:nth-child(4) { animation-delay: 0.4s; }
-@keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
-
-.composer {
-  flex: none;
-  padding: 12px 20px 16px;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-}
+.composer { flex: none; padding: 12px 20px 16px; border-top: 1px solid var(--border); background: var(--bg); }
 .composer form { max-width: 740px; margin: 0 auto; display: flex; align-items: flex-end; gap: 10px; }
-.composer textarea {
-  flex: 1;
-  min-height: 48px;
-  max-height: 160px;
-  padding: 12px 16px;
-  border: 1px solid var(--border-strong);
-  border-radius: 14px;
-  background: var(--surface);
-  color: #fff;
-  font-size: 15px;
-  resize: none;
-}
-.composer textarea:focus { outline: 0; border-color: #6b7280; }
-.send {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--border-strong);
-  border-radius: 14px;
-  background: #1f2430;
-  color: #fff;
-  transition: background 0.15s;
-}
-.send:hover { background: #2d3546; }
-.send svg { width: 20px; height: 20px; }
-.send .i-stop { display: none; }
-.composer.busy .i-send { display: none; }
-.composer.busy .i-stop { display: block; }
-.composer-hint { max-width: 740px; margin: 8px auto 0; color: var(--faint); font-size: 12px; }
-.chat-empty { flex: 1; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
-.chat-empty p { margin: 0 0 16px; }
+.composer textarea { flex: 1; min-height: 48px; max-height: 160px; padding: 12px 16px; border: 1px solid var(--border-strong); border-radius: 14px; background: var(--surface); color: #fff; font-size: 15px; resize: none; }
+.send { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--border-strong); border-radius: 14px; background: #1f2430; color: #fff; }
 
 .toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%);
-  z-index: 50;
-  max-width: calc(100% - 32px);
-  padding: 12px 20px;
-  border: 1px solid var(--border-strong);
-  border-radius: 12px;
-  background: #181d28;
-  color: #fff;
-  font-size: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  text-align: center;
+  position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 50;
+  padding: 12px 20px; border: 1px solid var(--border-strong); border-radius: 12px; background: #181d28; color: #fff; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
 }
 .toast.show { opacity: 1; }
-@media (min-width: 760px) { .toast { bottom: 32px; } }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <button class="brand" type="button" data-tab="home" aria-label="Q.Ai, на главную">
-    <span class="brand-mark" aria-hidden="true">Q</span>
+  <button class="brand" type="button" data-tab="home">
+    <span class="brand-mark">Q</span>
     <span>Q.Ai</span>
   </button>
   <div class="topbar-actions">
@@ -439,62 +230,59 @@ button.item:hover { background: var(--surface); }
       <span>👤 Войти</span>
     </button>
     <button class="key-status" id="keyStatus" type="button" data-tab="settings">
-      <span class="dot" aria-hidden="true"></span>
+      <span class="dot"></span>
       <span id="keyStatusText">Добавить ключ</span>
     </button>
   </div>
 </header>
 
-<nav class="nav" aria-label="Разделы">
+<nav class="nav">
   <button type="button" data-tab="home" aria-current="page">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-    <span>UGC Каталог</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    <span>D1 UGC</span>
   </button>
   <button type="button" data-tab="mybots">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
     <span>Мои</span>
   </button>
   <button type="button" data-tab="create">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
     <span>Создать</span>
   </button>
   <button type="button" data-tab="chat">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg>
     <span>Чат</span>
   </button>
   <button type="button" data-tab="settings">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/></svg>
     <span>Настройки</span>
   </button>
 </nav>
 
 <main>
-  <section id="screen-home" class="screen active" aria-labelledby="homeTitle">
+  <section id="screen-home" class="screen active">
     <div class="wrap">
-      <h1 id="homeTitle">UGC Каталог Персонажей</h1>
-      <p class="lead">Исследуйте персонажей от сообщества или общайтесь с ними без ограничений.</p>
-      
+      <h1>Cloudflare D1 Каталог</h1>
+      <p class="lead">Все персонажи хранятся в вашей собственной базе данных D1.</p>
       <div class="search-box">
-        <input type="text" id="searchInput" class="input" placeholder="Поиск персонажа по имени или описанию...">
+        <input type="text" id="searchInput" class="input" placeholder="Поиск персонажа по имени...">
       </div>
-
-      <div class="filters" id="filters" role="group" aria-label="Категории"></div>
       <div class="list" id="catalog"></div>
     </div>
   </section>
 
-  <section id="screen-mybots" class="screen" aria-labelledby="myTitle">
+  <section id="screen-mybots" class="screen">
     <div class="wrap">
-      <h1 id="myTitle">Мои персонажи</h1>
-      <p class="lead">Здесь хранятся все созданные вами персонажи.</p>
+      <h1>Мои персонажи</h1>
+      <p class="lead">Персонажи, привязанные к вашему аккаунту.</p>
       <div class="list" id="myBots"></div>
     </div>
   </section>
 
-  <section id="screen-create" class="screen" aria-labelledby="createTitle">
+  <section id="screen-create" class="screen">
     <div class="wrap">
-      <h1 id="createTitle">Новый персонаж</h1>
-      <p class="lead">Загрузите фото для авто-создания через Gemini или настройте параметры вручную.</p>
+      <h1>Создать бота</h1>
+      <p class="lead">Загрузите фото для авто-создания через Gemini или настройте вручную.</p>
 
       <div class="scan-box">
         <label class="label">✨ Авто-создание по фото</label>
@@ -502,7 +290,7 @@ button.item:hover { background: var(--surface); }
           <div class="scan-preview" id="scanPreview">🖼️</div>
           <div style="flex:1;">
             <input id="autoImageInput" class="input" type="file" accept="image/*">
-            <p class="hint">Фото станет аватаром бота и автоматически заполнит его профиль.</p>
+            <p class="hint">Фото станет аватаром и автоматически заполнит профиль.</p>
           </div>
         </div>
       </div>
@@ -510,135 +298,69 @@ button.item:hover { background: var(--surface); }
       <form id="createForm" autocomplete="off">
         <div class="row field">
           <div>
-            <label for="newAvatar">Эмодзи</label>
-            <input id="newAvatar" class="input avatar-input" type="text" value="🤖" maxlength="12">
+            <label>Эмодзи</label>
+            <input id="newAvatar" class="input avatar-input" type="text" value="🤖">
           </div>
           <div class="grow">
-            <label for="newName">Имя</label>
-            <input id="newName" class="input" type="text" maxlength="40" placeholder="Например: Эбби" required>
+            <label>Имя</label>
+            <input id="newName" class="input" type="text" required placeholder="Например: Детектив">
           </div>
         </div>
 
         <div class="field">
-          <label for="customAvatarFile">Или загрузить картинку-аватар</label>
+          <label>Или загрузить картинку-аватар</label>
           <input id="customAvatarFile" class="input" type="file" accept="image/*">
         </div>
-        
-        <div class="field">
-          <label for="newCategory">Категория</label>
-          <select id="newCategory" class="input">
-            <option value="fpe">FPE</option>
-            <option value="anime">Аниме и игры</option>
-            <option value="helpers">Помощники</option>
-            <option value="other">Другое</option>
-          </select>
-        </div>
 
         <div class="field">
-          <label for="newDesc">Описание</label>
-          <input id="newDesc" class="input" type="text" maxlength="140" placeholder="Краткое описание карточки" required>
+          <label>Описание</label>
+          <input id="newDesc" class="input" type="text" required placeholder="Краткая суть">
         </div>
-
         <div class="field">
-          <label for="newPrompt">Характер и промпт</label>
-          <textarea id="newPrompt" class="input" rows="6" maxlength="4000" required placeholder="Опишите поведение и манеру речи..."></textarea>
+          <label>System Prompt</label>
+          <textarea id="newPrompt" class="input" rows="4" required placeholder="Характер бота..."></textarea>
         </div>
-
         <div class="field">
-          <label for="newGreeting">Приветствие</label>
-          <textarea id="newGreeting" class="input" rows="3" maxlength="600" required placeholder="Первое сообщение персонажа..."></textarea>
+          <label>Приветствие</label>
+          <textarea id="newGreeting" class="input" rows="2" required placeholder="Первое сообщение..."></textarea>
         </div>
-
-        <div class="field">
-          <label class="check">
-            <input id="newPublic" type="checkbox" checked>
-            <span>Опубликовать в общем UGC-каталоге для других пользователей</span>
-          </label>
-        </div>
-
         <div class="actions">
-          <button class="btn btn-accent" type="submit">Создать бота</button>
+          <button class="btn btn-accent" type="submit">Сохранить в D1</button>
         </div>
       </form>
     </div>
   </section>
 
-  <section id="screen-chat" class="screen" aria-label="Чат">
-    <div class="chat-empty" id="chatEmpty">
-      <div>
-        <p>Выберите персонажа в каталоге, чтобы начать общение.</p>
-        <button class="btn" type="button" data-tab="home">Открыть каталог</button>
-      </div>
-    </div>
-
+  <section id="screen-chat" class="screen">
     <div class="chat-head" id="chatHead" hidden>
       <div class="chat-who">
-        <div class="avatar sm" id="chatAvatar" aria-hidden="true"></div>
-        <div class="chat-titles">
+        <div class="avatar sm" id="chatAvatar"></div>
+        <div>
           <h2 id="chatName"></h2>
           <p id="chatSub"></p>
         </div>
       </div>
-      <button class="btn btn-quiet" id="resetBtn" type="button">Сбросить чат</button>
     </div>
-
     <div id="chatScroll" hidden>
-      <div class="thread" id="thread" role="log" aria-live="polite"></div>
+      <div class="thread" id="thread"></div>
     </div>
-
-    <div class="typing" id="typing" hidden>
-      <div class="typing-inner">
-        <span id="typingText">Печатает</span>
-        <span class="d"></span><span class="d"></span><span class="d"></span>
-      </div>
-    </div>
-
     <div class="composer" id="composer" hidden>
       <form id="chatForm">
-        <textarea id="userInput" rows="1" maxlength="2000" placeholder="Введите сообщение..."></textarea>
-        <button class="send" id="sendBtn" type="submit" aria-label="Отправить">
-          <svg class="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          <svg class="i-stop" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
-        </button>
+        <textarea id="userInput" rows="1" placeholder="Введите сообщение..."></textarea>
+        <button class="send" type="submit">➢</button>
       </form>
-      <p class="composer-hint">Enter — отправить, Shift+Enter — новая строка. Действия оформляйте в *звёздочках*.</p>
     </div>
   </section>
 
-  <section id="screen-settings" class="screen" aria-labelledby="setTitle">
+  <section id="screen-settings" class="screen">
     <div class="wrap">
-      <h1 id="setTitle">Настройки</h1>
-      <p class="lead">Укажите ваш API-ключ Gemini для работы искусственного интеллекта.</p>
-      <form id="settingsForm" autocomplete="off">
+      <h1>Настройки</h1>
+      <form id="settingsForm">
         <div class="field">
-          <label for="apiKeyInput">Gemini API-ключ</label>
-          <div class="inline-field">
-            <input id="apiKeyInput" class="input" type="password" placeholder="Вставьте ключ сюда" autocomplete="off">
-            <button class="btn btn-quiet" id="toggleKey" type="button">Показать</button>
-          </div>
+          <label>Gemini API-ключ</label>
+          <input id="apiKeyInput" class="input" type="password" placeholder="Вставьте ключ">
         </div>
-
-        <div class="field">
-          <label class="check">
-            <input id="rememberKey" type="checkbox">
-            <span>Запомнить ключ на устройстве</span>
-          </label>
-        </div>
-
-        <div class="field">
-          <label for="personaInput">Ваше имя</label>
-          <input id="personaInput" class="input" type="text" maxlength="30" placeholder="Ученик">
-        </div>
-
-        <div class="field">
-          <label for="modelInput">Модель</label>
-          <input id="modelInput" class="input" type="text" maxlength="64" value="gemini-3.5-flash-lite">
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-accent" type="submit">Сохранить</button>
-          <button class="btn btn-quiet" id="clearKey" type="button">Удалить ключ</button>
-        </div>
+        <button class="btn btn-accent" type="submit">Сохранить</button>
       </form>
     </div>
   </section>
@@ -648,75 +370,52 @@ button.item:hover { background: var(--surface); }
 <div class="modal-overlay" id="authModal" hidden>
   <div class="modal">
     <div class="modal-header">
-      <h2>Авторизация Q.Ai</h2>
+      <h2>Авторизация</h2>
       <button class="modal-close" onclick="closeAuthModal()">✕</button>
     </div>
     <form id="authForm">
       <div class="field">
-        <label for="authUsername">Никнейм</label>
-        <input id="authUsername" class="input" type="text" required placeholder="Введите ваш ник">
+        <label>Email или Логин</label>
+        <input id="authEmail" class="input" type="text" required>
       </div>
       <div class="field">
-        <label for="authPassword">Пароль</label>
-        <input id="authPassword" class="input" type="password" required placeholder="******">
+        <label>Пароль</label>
+        <input id="authPassword" class="input" type="password" required>
       </div>
       <div class="actions">
-        <button class="btn btn-accent w-100" type="submit" style="width:100%;">Войти / Зарегистрироваться</button>
+        <button class="btn btn-accent" type="button" onclick="handleAuth('register')" style="flex:1;">Регистрация</button>
+        <button class="btn" type="button" onclick="handleAuth('login')" style="flex:1;">Войти</button>
       </div>
     </form>
   </div>
 </div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast"></div>
 
 <script>
 'use strict';
 (() => {
-  const CATEGORIES = { fpe: 'FPE', anime: 'Аниме и игры', helpers: 'Помощники', other: 'Другое' };
-  const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
-  const K = { apiKey: 'gemini_api_key', persona: 'user_persona', bots: 'user_custom_bots', ugc: 'qai_ugc_bots', user: 'qai_current_user', model: 'gemini_model' };
-
-  const PRESET_BOTS = [
-    {
-      id: 'abbie-fpe', name: 'Abbie (Эбби)', avatar: '🍎', category: 'fpe', author: 'Официальный',
-      desc: 'Пугливый ученик из Fundamental Paper Education.',
-      greeting: '*дрожащими руками прижимает тетрадь к груди и испуганно оглядывается*\n\nА-ах!.. П-привет... Ты ведь не учитель, правда?',
-      prompt: 'Ты — Abbie, пугливый и тревожный ученик бумажной школы. Заикайся, описывай действия в *звёздочках*.'
-    }
-  ];
-
   const $ = (id) => document.getElementById(id);
-  let toastTimer = null;
-  function toast(message) {
-    const node = $('toast');
-    node.textContent = message;
-    node.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => node.classList.remove('show'), 4000);
+  function toast(msg) {
+    const node = $('toast'); node.textContent = msg; node.classList.add('show');
+    setTimeout(() => node.classList.remove('show'), 3000);
   }
 
-  let apiKey = localStorage.getItem(K.apiKey) || sessionStorage.getItem(K.apiKey) || '';
-  let personaName = localStorage.getItem(K.persona) || 'Ученик';
-  let model = localStorage.getItem(K.model) || DEFAULT_MODEL;
-  let currentUser = JSON.parse(localStorage.getItem(K.user) || 'null');
-  
-  let userBots = JSON.parse(localStorage.getItem(K.bots) || '[]');
-  let ugcBots = JSON.parse(localStorage.getItem(K.ugc) || '[]');
-  
+  let apiKey = localStorage.getItem('gemini_api_key') || '';
+  let currentUser = JSON.parse(localStorage.getItem('qai_user') || 'null');
+  let d1Bots = [];
   let currentBot = null;
+  let manualAvatarData = '';
   let temporaryAvatarData = '';
   const sessions = new Map();
 
   function updateUserUI() {
     const btn = $('userBtn');
     if (currentUser) {
-      btn.innerHTML = `<span>👤 ${currentUser.username}</span>`;
+      btn.innerHTML = `<span>👤 ${currentUser.email}</span>`;
       btn.onclick = () => {
-        if (confirm('Выйти из аккаунта ' + currentUser.username + '?')) {
-          currentUser = null;
-          localStorage.removeItem(K.user);
-          updateUserUI();
-          toast('Вы вышли из аккаунта');
+        if (confirm('Выйти?')) {
+          currentUser = null; localStorage.removeItem('qai_user'); updateUserUI(); toast('Вы вышли');
         }
       };
     } else {
@@ -728,47 +427,34 @@ button.item:hover { background: var(--surface); }
   window.openAuthModal = () => $('authModal').hidden = false;
   window.closeAuthModal = () => $('authModal').hidden = true;
 
-  $('authForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = $('authUsername').value.trim();
-    if (!username) return;
-    currentUser = { username, id: 'user-' + Date.now() };
-    localStorage.setItem(K.user, JSON.stringify(currentUser));
-    updateUserUI();
-    closeAuthModal();
-    toast('Добро пожаловать, ' + username + '!');
-  });
+  window.handleAuth = async (action) => {
+    const email = $('authEmail').value.trim();
+    const password = $('authPassword').value.trim();
+    if (!email || !password) return toast('Заполните все поля');
 
-  function refreshKeyBadge() {
-    const statusText = $('keyStatusText');
-    const statusBtn = $('keyStatus');
-    if (statusText && statusBtn) {
-      statusText.textContent = apiKey ? 'Ключ подключен' : 'Добавить ключ';
-      statusBtn.classList.toggle('is-set', Boolean(apiKey));
-    }
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, email, password })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      currentUser = data.user;
+      localStorage.setItem('qai_user', JSON.stringify(currentUser));
+      updateUserUI(); closeAuthModal(); toast('Успешно!');
+      loadBots();
+    } catch (err) { toast(err.message); }
+  };
+
+  async function loadBots() {
+    try {
+      const res = await fetch('/api/bots');
+      d1Bots = await res.json();
+      renderCatalog(); renderMyBots();
+    } catch (e) { toast('Ошибка загрузки ботов из D1'); }
   }
-
-  function fillSettings() {
-    if ($('apiKeyInput'))$('apiKeyInput').value = apiKey;
-    if ($('rememberKey'))$('rememberKey').checked = Boolean(localStorage.getItem(K.apiKey));
-    if ($('personaInput'))$('personaInput').value = personaName;
-    if ($('modelInput'))$('modelInput').value = model;
-    refreshKeyBadge();
-  }
-
-  function switchTab(tab) {
-    document.querySelectorAll('.screen').forEach((el) => el.classList.toggle('active', el.id === 'screen-' + tab));
-    document.querySelectorAll('.nav button').forEach((btn) => {
-      if (btn.dataset.tab === tab) btn.setAttribute('aria-current', 'page');
-      else btn.removeAttribute('aria-current');
-    });
-    if (tab === 'chat' && currentBot) scrollToBottomForce();
-  }
-
-  document.addEventListener('click', (e) => {
-    const trigger = e.target.closest('[data-tab]');
-    if (trigger) switchTab(trigger.dataset.tab);
-  });
 
   function renderAvatarHtml(val) {
     if (!val) return '🤖';
@@ -779,18 +465,11 @@ button.item:hover { background: var(--surface); }
   }
 
   function renderCatalog() {
-    const catalog = $('catalog');
-    catalog.replaceChildren();
-    
-    // Объединяем пресеты, пользовательские боты и общий UGC
-    const all = [...PRESET_BOTS, ...userBots.filter(b => b.isPublic), ...ugcBots];
-    const uniqueBots = Array.from(new Map(all.map(item => [item.id, item])).values());
-    
-    const filterQuery = ($('searchInput') ? $('searchInput').value.trim().toLowerCase() : '');
+    const catalog = $('catalog'); catalog.replaceChildren();
+    const q = ($('searchInput') ? $('searchInput').value.toLowerCase() : '');
+    const filtered = d1Bots.filter(b => !q || b.name.toLowerCase().includes(q));
 
-    uniqueBots.filter(b => {
-      return !filterQuery || b.name.toLowerCase().includes(filterQuery) || b.desc.toLowerCase().includes(filterQuery);
-    }).forEach(bot => {
+    filtered.forEach(bot => {
       const item = document.createElement('button');
       item.className = 'item';
       item.innerHTML = `
@@ -798,10 +477,9 @@ button.item:hover { background: var(--surface); }
         <div class="item-main">
           <div class="item-title">
             <h3>${bot.name}</h3>
-            <span class="item-cat">${CATEGORIES[bot.category] || 'Другое'}</span>
-            <span class="item-author">от ${bot.author || 'Аноним'}</span>
+            <span class="item-author">от ${bot.author_name}</span>
           </div>
-          <p class="item-desc">${bot.desc}</p>
+          <p class="item-desc">${bot.description || ''}</p>
         </div>
       `;
       item.onclick = () => selectBot(bot);
@@ -809,43 +487,23 @@ button.item:hover { background: var(--surface); }
     });
   }
 
-  if ($('searchInput')) {
-    $('searchInput').addEventListener('input', renderCatalog);
-  }
-
   function renderMyBots() {
-    const myBots = $('myBots');
-    myBots.replaceChildren();
-    if (!userBots.length) {
-      myBots.innerHTML = '<div class="empty"><p>У вас пока нет созданных персонажей.</p></div>';
-      return;
+    const myBots = $('myBots'); myBots.replaceChildren();
+    if (!currentUser) {
+      myBots.innerHTML = '<div class="empty"><p>Войдите, чтобы видеть свои боты.</p></div>'; return;
     }
-    userBots.forEach(bot => {
+    const my = d1Bots.filter(b => b.author_id === currentUser.id);
+    my.forEach(bot => {
       const item = document.createElement('div');
       item.className = 'item';
       item.innerHTML = `
         <div class="avatar">${renderAvatarHtml(bot.avatar)}</div>
-        <div class="item-main">
-          <div class="item-title">
-            <h3>${bot.name}</h3>
-            ${bot.isPublic ? '<span class="item-author">Публичный (UGC)</span>' : ''}
-          </div>
-          <p class="item-desc">${bot.desc}</p>
-        </div>
-        <button class="btn btn-quiet" type="button">Удалить</button>
+        <div class="item-main"><h3>${bot.name}</h3><p class="item-desc">${bot.description || ''}</p></div>
       `;
-      item.querySelector('button').onclick = () => {
-        userBots = userBots.filter(b => b.id !== bot.id);
-        localStorage.setItem(K.bots, JSON.stringify(userBots));
-        renderMyBots();
-        renderCatalog();
-        toast('Персонаж удален');
-      };
       myBots.appendChild(item);
     });
   }
 
-  let manualAvatarData = '';
   $('customAvatarFile').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -855,47 +513,6 @@ button.item:hover { background: var(--surface); }
       toast('Аватар загружен');
     };
     reader.readAsDataURL(file);
-  });
-
-  $('createForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!currentUser) {
-      toast('Пожалуйста, войдите в аккаунт перед созданием!');
-      openAuthModal();
-      return;
-    }
-
-    const finalAvatar = manualAvatarData || temporaryAvatarData || $('newAvatar').value.trim() || '🤖';
-    const isPublic = $('newPublic').checked;
-
-    const newBot = {
-      id: 'custom-' + Date.now(),
-      name: $('newName').value.trim(),
-      avatar: finalAvatar,
-      category: $('newCategory').value,
-      desc: $('newDesc').value.trim(),
-      prompt: $('newPrompt').value.trim(),
-      greeting: $('newGreeting').value.trim(),
-      author: currentUser.username,
-      isPublic: isPublic
-    };
-
-    userBots.push(newBot);
-    localStorage.setItem(K.bots, JSON.stringify(userBots));
-
-    if (isPublic) {
-      ugcBots.unshift(newBot);
-      localStorage.setItem(K.ugc, JSON.stringify(ugcBots));
-    }
-
-    e.target.reset();
-    temporaryAvatarData = '';
-    manualAvatarData = '';
-    $('scanPreview').innerHTML = '🖼️';
-    renderCatalog();
-    renderMyBots();
-    toast('Персонаж создан!');
-    selectBot(newBot);
   });
 
   $('autoImageInput').addEventListener('change', async (e) => {
@@ -921,7 +538,7 @@ button.item:hover { background: var(--surface); }
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             apiKey: apiKey,
-            model: model,
+            model: 'gemini-3.5-flash-lite',
             mimeType: file.type,
             base64Data: base64Data
           })
@@ -945,213 +562,114 @@ button.item:hover { background: var(--surface); }
     reader.readAsDataURL(file);
   });
 
-  $('toggleKey').addEventListener('click', () => {
-    const input = $('apiKeyInput');
-    input.type = input.type === 'password' ? 'text' : 'password';
+  $('createForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser) return openAuthModal();
+
+    const finalAvatar = manualAvatarData || temporaryAvatarData || $('newAvatar').value.trim() || '🤖';
+
+    const bot = {
+      name: $('newName').value.trim(),
+      avatar: finalAvatar,
+      description: $('newDesc').value.trim(),
+      prompt: $('newPrompt').value.trim(),
+      greeting: $('newGreeting').value.trim(),
+      author_id: currentUser.id,
+      author_name: currentUser.email,
+      is_public: 1
+    };
+
+    try {
+      const res = await fetch('/api/bots', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bot)
+      });
+      if (res.ok) {
+        toast('Бот создан и сохранен в Cloudflare D1!');
+        e.target.reset();
+        temporaryAvatarData = '';
+        manualAvatarData = '';
+        $('scanPreview').innerHTML = '🖼️';
+        loadBots();
+      }
+    } catch (err) { toast('Ошибка сохранения'); }
+  });
+
+  function switchTab(tab) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.toggle('active', el.id === 'screen-' + tab));
+    document.querySelectorAll('.nav button').forEach(btn => btn.setAttribute('aria-current', btn.dataset.tab === tab ? 'page' : ''));
+  }
+
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-tab]');
+    if (trigger) switchTab(trigger.dataset.tab);
+  });
+
+  function selectBot(bot) {
+    currentBot = bot;
+    $('chatHead').hidden = false; $('chatScroll').hidden = false; $('composer').hidden = false;
+    $('chatAvatar').innerHTML = renderAvatarHtml(bot.avatar);
+    $('chatName').textContent = bot.name;
+    $('chatSub').textContent = 'от ' + bot.author_name;
+
+    if (!sessions.has(bot.id)) sessions.set(bot.id, []);
+    renderChatMessages(bot); switchTab('chat');
+  }
+
+  function renderChatMessages(bot) {
+    const thread = $('thread'); thread.replaceChildren();
+    const history = sessions.get(bot.id) || [];
+
+    thread.innerHTML = `<div class="msg-bot"><div class="avatar sm">${renderAvatarHtml(bot.avatar)}</div><div><div class="who">${bot.name}</div><div class="bubble">${bot.greeting}</div></div></div>`;
+
+    history.forEach(m => {
+      const div = document.createElement('div');
+      div.className = m.role === 'model' ? 'msg-bot' : 'msg-user';
+      div.innerHTML = m.role === 'model'
+        ? `<div class="avatar sm">${renderAvatarHtml(bot.avatar)}</div><div><div class="who">${bot.name}</div><div class="bubble">${m.text}</div></div>`
+        : `<div class="bubble">${m.text}</div>`;
+      thread.appendChild(div);
+    });
+  }
+
+  $('chatForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = $('userInput'); const text = input.value.trim();
+    if (!text || !currentBot) return;
+
+    const history = sessions.get(currentBot.id);
+    history.push({ role: 'user', text });
+    renderChatMessages(currentBot); input.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          apiKey: apiKey,
+          contents: history.map(m => ({ role: m.role, parts: [{ text: m.text }] })),
+          systemInstruction: { parts: [{ text: currentBot.prompt }] }
+        })
+      });
+      const data = await res.json();
+      const reply = data.candidates[0].content.parts[0].text;
+      history.push({ role: 'model', text: reply });
+      renderChatMessages(currentBot);
+    } catch (err) { toast('Ошибка ответа'); }
   });
 
   $('settingsForm').addEventListener('submit', (e) => {
     e.preventDefault();
     apiKey = $('apiKeyInput').value.trim();
-    const remember = $('rememberKey').checked;
-    personaName = $('personaInput').value.trim() || 'Ученик';
-    model = $('modelInput').value.trim() || DEFAULT_MODEL;
-
-    localStorage.removeItem(K.apiKey);
-    sessionStorage.removeItem(K.apiKey);
-    if (apiKey) {
-      (remember ? localStorage : sessionStorage).setItem(K.apiKey, apiKey);
-    }
-    localStorage.setItem(K.persona, personaName);
-    localStorage.setItem(K.model, model);
-
-    refreshKeyBadge();
-    toast('Настройки сохранены');
+    localStorage.setItem('gemini_api_key', apiKey);
+    toast('Ключ сохранен');
   });
 
-  $('clearKey').addEventListener('click', () => {
-    apiKey = '';
-    localStorage.removeItem(K.apiKey);
-    sessionStorage.removeItem(K.apiKey);
-    fillSettings();
-    toast('Ключ удален');
-  });
+  if ($('searchInput')) $('searchInput').addEventListener('input', renderCatalog);
 
-  const thread = $('thread');
-  const scroller = $('chatScroll');
-
-  function scrollToBottomForce() {
-    setTimeout(() => {
-      scroller.scrollTop = scroller.scrollHeight;
-    }, 40);
-  }
-
-  function renderRich(text) {
-    return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-      .replace(/\n/g, '<br>');
-  }
-
-  function addMessage(role, text, bot, index) {
-    const isBot = role === 'model';
-    const msgDiv = document.createElement('div');
-    msgDiv.className = isBot ? 'msg-bot' : 'msg-user';
-    
-    if (isBot) {
-      msgDiv.innerHTML = `
-        <div class="avatar sm">${renderAvatarHtml(bot.avatar)}</div>
-        <div>
-          <div class="who">${bot.name}</div>
-          <div class="text bubble">${renderRich(text)}</div>
-          <div class="msg-toolbar">
-            <button type="button" class="edit-btn">Редактировать</button>
-            <button type="button" class="rewind-btn">Откатить сюда</button>
-          </div>
-        </div>
-      `;
-      msgDiv.querySelector('.edit-btn').onclick = () => {
-        const newText = prompt('Изменить ответ персонажа:', text);
-        if (newText !== null) {
-          sessions.get(bot.id)[index].text = newText;
-          renderChatMessages(bot);
-        }
-      };
-      msgDiv.querySelector('.rewind-btn').onclick = () => {
-        if (confirm('Откатить диалог до этого сообщения?')) {
-          sessions.set(bot.id, sessions.get(bot.id).slice(0, index + 1));
-          renderChatMessages(bot);
-          toast('Диалог откачен');
-        }
-      };
-    } else {
-      msgDiv.innerHTML = `<div class="bubble text">${renderRich(text)}</div>`;
-    }
-    thread.appendChild(msgDiv);
-    scrollToBottomForce();
-  }
-
-  function renderChatMessages(bot) {
-    thread.replaceChildren();
-    addMessage('model', bot.greeting, bot, -1);
-    const history = sessions.get(bot.id) || [];
-    history.forEach((m, idx) => addMessage(m.role, m.text, bot, idx));
-    scrollToBottomForce();
-  }
-
-  function selectBot(bot) {
-    currentBot = bot;
-    $('chatEmpty').hidden = true;
-    $('chatHead').hidden = false;
-    scroller.hidden = false;
-    $('composer').hidden = false;
-
-    $('chatAvatar').innerHTML = renderAvatarHtml(bot.avatar);
-    $('chatName').textContent = bot.name;
-    $('chatSub').textContent = (CATEGORIES[bot.category] || 'Другое') + ' • от ' + (bot.author || 'Аноним');
-
-    if (!sessions.has(bot.id)) {
-      sessions.set(bot.id, []);
-    }
-    renderChatMessages(bot);
-    switchTab('chat');
-  }
-
-  $('resetBtn').onclick = () => {
-    if (!currentBot) return;
-    sessions.set(currentBot.id, []);
-    renderChatMessages(currentBot);
-    toast('Чат сброшен');
-  };
-
-  async function sendWithTimeoutAndRetry(url, options, maxAttempts = 3) {
-    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000);
-
-      try {
-        const res = await fetch(url, { ...options, signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        if (res.ok) {
-          return await res.json();
-        }
-
-        if (res.status === 503 && attempt < maxAttempts) {
-          toast('Возможно, сервера перегружены, или ваше интернет-соединение нестабилен. Автоотправка через 10 секунд.');
-          await new Promise(r => setTimeout(r, 10000));
-          continue;
-        }
-
-        throw new Error('API Error: ' + res.status);
-      } catch (err) {
-        clearTimeout(timeoutId);
-        if (attempt === maxAttempts) throw err;
-
-        toast('Возможно, сервера перегружены, или ваше интернет-соединение нестабилен. Автоотправка через 10 секунд.');
-        await new Promise(r => setTimeout(r, 10000));
-      }
-    }
-  }
-
-  $('chatForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const input = $('userInput');
-    const text = input.value.trim();
-    if (!text || !currentBot) return;
-    if (!apiKey) {
-      toast('Добавьте API-ключ в настройках!');
-      switchTab('settings');
-      return;
-    }
-
-    const bot = currentBot;
-    const history = sessions.get(bot.id);
-    history.push({ role: 'user', text });
-    addMessage('user', text, bot, history.length - 1);
-    input.value = '';
-    input.style.height = 'auto';
-
-    $('typing').hidden = false;
-    scrollToBottomForce();
-
-    try {
-      const contents = history.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
-      
-      const options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          apiKey: apiKey,
-          model: model,
-          contents: contents,
-          systemInstruction: { parts: [{ text: `${bot.prompt}\nСобеседника зовут ${personaName}.` }] }
-        })
-      };
-
-      const data = await sendWithTimeoutAndRetry('/api/chat', options);
-      
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      const reply = data.candidates[0].content.parts[0].text;
-
-      history.push({ role: 'model', text: reply });
-      renderChatMessages(bot);
-    } catch (err) {
-      toast('Сервер недоступен или перегружен. Попробуйте еще раз.');
-    } finally {
-      $('typing').hidden = true;
-      scrollToBottomForce();
-    }
-  });
-
-  fillSettings();
-  updateUserUI();
-  renderCatalog();
-  renderMyBots();
-  switchTab('home');
+  if ($('apiKeyInput')) $('apiKeyInput').value = apiKey;
+  updateUserUI(); loadBots(); switchTab('home');
 })();
 </script>
 </body>
